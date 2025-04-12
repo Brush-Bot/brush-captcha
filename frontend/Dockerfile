@@ -1,15 +1,11 @@
-FROM node:20-alpine
-
+FROM node:18 AS builder
 WORKDIR /app
-
 COPY . .
-
-# 注入 API 地址（通过 build args）
-ARG BASE_API_URL=http://localhost:8000
-ENV VITE_BASE_API_URL=$BASE_API_URL
-
+ARG BASE_API_URL
+ENV REACT_APP_BASE_API_URL=$BASE_API_URL
 RUN npm install && npm run build
-RUN npm install -g serve
 
-EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# 用 nginx 作为生产环境服务器
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY ../nginx/default.conf /etc/nginx/conf.d/default.conf
