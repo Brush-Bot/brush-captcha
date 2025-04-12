@@ -10,3 +10,5 @@
 /client/venv/
 /init.sh
 /toolbox.sh
+**/.idea/
+**/__pycache__/
