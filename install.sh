@@ -11,14 +11,15 @@ fi
 BASE_API_URL="http://$HOST_IP:8000"
 echo "BASE_API_URL=$BASE_API_URL" > .env
 echo "✅ 已写入 .env：BASE_API_URL=$BASE_API_URL"
-echo "VITE_BASE_API_URL=$BASE_API_URL" >> .env
-echo "✅ 已写入 .env：VITE_BASE_API_URL=$BASE_API_URL"
+echo "REACT_APP_BASE_API_URL=$BASE_API_URL" >> .env
+echo "✅ 已写入 .env：REACT_APP_BASE_API_URL=$BASE_API_URL"
 # 替换nginx
 cp frontend/nginx.conf.template frontend/nginx.conf
 sed -i "s|__HOST_IP__|$HOST_IP|g" frontend/nginx.conf
 echo "✅ 已生成 nginx.conf"
 
 # 用户传参
+echo "📌 请输入代理服务器信息，目前仅适配了ip2world，其他请自行适配"
 read -p "请输入 Proxy Server (例如 http://ip:port): " proxy_server
 read -p "请输入 Proxy Username: " proxy_username
 read -p "请输入 Proxy Password: " proxy_password

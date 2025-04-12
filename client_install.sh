@@ -11,6 +11,7 @@ if [[ "$use_ip" =~ ^[Nn]$ ]]; then
 fi
 
 # 用户传参
+echo "📌 请输入代理服务器信息，目前仅适配了ip2world，其他请自行适配"
 read -p "请输入 Proxy Server (例如 http://ip:port): " proxy_server
 read -p "请输入 Proxy Username: " proxy_username
 read -p "请输入 Proxy Password: " proxy_password

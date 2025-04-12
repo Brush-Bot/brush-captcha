@@ -43,8 +43,7 @@
 - Nginx（建议部署使用）
 
 ---
-### 🚀 一键启动
-
+### 🚀 开箱即用
 确保已安装 [Docker](https://www.docker.com/) 和 [Docker Compose](https://docs.docker.com/compose/):
 
 ```bash
