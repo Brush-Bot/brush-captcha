@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="9d4cfcca-22fd-41db-bc68-44dc41c49b00" name="s1">
+        <fileTransfer rootFolder="/home/gpuuser" accessType="SFTP" host="s1.myhome" port="22" sshConfigId="4cf2f980-2c28-4710-bed1-e658b4205594" sshConfig="gpuuser@s1.myhome:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
