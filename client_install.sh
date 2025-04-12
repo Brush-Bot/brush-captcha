@@ -1,22 +1,14 @@
 #!/bin/bash
 
-echo "=== 一键初始化安装脚本 ==="
+echo "=== Client 安装脚本 ==="
 
+# 获取宿主机 IP
 HOST_IP=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i != "127.0.0.1") { print $i; exit } }')
 read -p "检测到宿主机 IP 为 $HOST_IP，是否使用？[Y/n]: " use_ip
 use_ip=${use_ip:-Y}
 if [[ "$use_ip" =~ ^[Nn]$ ]]; then
   read -p "请输入宿主机 IP: " HOST_IP
 fi
-BASE_API_URL="http://$HOST_IP:8000"
-echo "BASE_API_URL=$BASE_API_URL" > .env
-echo "✅ 已写入 .env：BASE_API_URL=$BASE_API_URL"
-echo "VITE_BASE_API_URL=$BASE_API_URL" >> .env
-echo "✅ 已写入 .env：VITE_BASE_API_URL=$BASE_API_URL"
-# 替换nginx
-cp frontend/nginx.conf.template frontend/nginx.conf
-sed -i "s|__HOST_IP__|$HOST_IP|g" frontend/nginx.conf
-echo "✅ 已生成 nginx.conf"
 
 # 用户传参
 read -p "请输入 Proxy Server (例如 http://ip:port): " proxy_server
@@ -60,18 +52,7 @@ EOF
 
 echo "✅ 已生成 client/config/config.yaml"
 
-# 启动容器
-echo "🚀 正在启动容器..."
-docker compose up -d
-
-echo "✅ 容器启动完成！"
-
-# 打印访问地址
-echo
-echo "🌐 访问地址如下："
-echo "🔹 前端页面：http://$HOST_IP:8080"
-echo "🔹 后端 API：http://$HOST_IP:8000"
-echo "🔹 WebSocket 地址：$final_wss_url"
-echo
-
-
+# 启动 client 容器
+echo "🚀 正在启动 client 容器..."
+docker compose up -d client
+echo "✅ client 容器已启动"
