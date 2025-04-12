@@ -17,5 +17,5 @@ worker:
 # 动态代理配置（适配 ipworld）
 proxy:
   server: "http://pr-sg.ip2world.com:6001"
-  username: "capsolver-zone-resi-region-hk"
-  password: "123456"
+  username: ""
+  password: ""
