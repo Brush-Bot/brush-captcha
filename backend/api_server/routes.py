@@ -90,7 +90,11 @@ async def get_tasks():
                 "taskId": t.get("taskId"),
                 "status": t.get("status"),
                 "assignedTo": safe_str(t.get("assignedTo")),
-                "createdAt": t.get("createdAt").isoformat() if t.get("createdAt") else None,
+                "createdAt": (
+                                t.get("createdAt").isoformat() if isinstance(t.get("createdAt"), datetime)
+                                else t.get("createdAt") if t.get("createdAt")
+                                else None
+                            ),
                 "type": t.get("type")
             }
             for t in active_tasks
