@@ -12,3 +12,4 @@
 /toolbox.sh
 **/.idea/
 **/__pycache__/
+/client/logs/
