@@ -6,9 +6,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        BASE_API_URL: ${BASE_API_URL}  # 注意：这里可换成 nginx 代理地址
+        BASE_API_URL: ${BASE_API_URL}
     ports:
-      - "80:3000"
+      - "8080:8080"
     depends_on:
       - backend
 
