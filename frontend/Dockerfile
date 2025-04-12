@@ -2,8 +2,8 @@
 FROM node:18 AS builder
 WORKDIR /app
 COPY . .
-ARG BASE_API_URL
-ENV REACT_APP_BASE_API_URL=$BASE_API_URL
+ARG VITE_BASE_API_URL
+ENV VITE_BASE_API_URL=$VITE_BASE_API_URL
 RUN npm install && npm run build
 
 # 部署阶段：用 nginx 托管构建产物

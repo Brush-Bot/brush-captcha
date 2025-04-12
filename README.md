@@ -51,15 +51,20 @@
 # 克隆仓库
 git clone https://github.com/Brush-Bot/brush-captcha.git
 cd brush-captcha
+bash install.sh
 
-# 启动所有服务
-docker compose up -d
+# 根据提示输入，除了proxy信息为必填信息，其他配置可以直接回车
+
 ```
 注意：client的基础镜像比较大，建议分开安装
 ```
-默认监控页面地址：http://localhost:8000/
+默认监控页面地址：http://{ip}:8080/
 账号：admin
 密码：admin
+```
+### 🚀 单独安装client端
+```bash
+bash <(curl -sSL https://raw.githubusercontent.com/Brush-Bot/brush-captcha/refs/heads/main/client_install.sh)
 ```
 ## 🛠 手动启动
 

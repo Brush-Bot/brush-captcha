@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        BASE_API_URL: ${BASE_API_URL}
+        VITE_BASE_API_URL: ${BASE_API_URL}
     ports:
       - "8080:8080"
     depends_on:

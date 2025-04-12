@@ -2,25 +2,22 @@
 
 echo "=== 一键初始化安装脚本 ==="
 
-# 自动探测宿主机 IP
 HOST_IP=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i != "127.0.0.1") { print $i; exit } }')
 read -p "检测到宿主机 IP 为 $HOST_IP，是否使用？[Y/n]: " use_ip
 use_ip=${use_ip:-Y}
 if [[ "$use_ip" =~ ^[Nn]$ ]]; then
   read -p "请输入宿主机 IP: " HOST_IP
 fi
-
-# 设置 BASE_API_URL 并写入 .env
 BASE_API_URL="http://$HOST_IP:8000"
 echo "BASE_API_URL=$BASE_API_URL" > .env
 echo "✅ 已写入 .env：BASE_API_URL=$BASE_API_URL"
 
-# 替换 nginx 模板
+# 替换nginx
 cp frontend/nginx.conf.template frontend/nginx.conf
 sed -i "s|__HOST_IP__|$HOST_IP|g" frontend/nginx.conf
 echo "✅ 已生成 nginx.conf"
 
-# 收集 client 配置参数
+# 用户传参
 read -p "请输入 Proxy Server (例如 http://ip:port): " proxy_server
 read -p "请输入 Proxy Username: " proxy_username
 read -p "请输入 Proxy Password: " proxy_password
@@ -31,11 +28,11 @@ wss_port=${wss_port:-8000}
 read -p "请输入 Worker Name (默认 test): " worker_name
 worker_name=${worker_name:-test}
 
-# 判断是否带协议头
+# 判断wss还是ws
 if [[ "$wss_ip" == *"://"* ]]; then
-  final_wss_url="$wss_ip/ws/worker/"
+  final_wss_url="$wss_ip/worker/"
 else
-  final_wss_url="ws://$wss_ip:$wss_port/ws/worker/"
+  final_wss_url="ws://$wss_ip:$wss_port/worker/"
 fi
 
 # 生成 client/config/config.yaml
