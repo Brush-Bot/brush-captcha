@@ -1,0 +1,105 @@
+[2025-04-12 18:01:51,138] [INFO] [ws_client] 📌 最大允许线程数:{MAX_CONCURRENCY}
+[2025-04-12 18:01:51,326] [INFO] [ws_client] ✅ 已注册:wss://capsolver.yxschool.cc:8998/ws/worker/test222
+[2025-04-12 18:02:05,795] [INFO] [ws_client] 📌 最大允许线程数:5
+[2025-04-12 18:02:05,862] [INFO] [ws_client] ✅ 已注册:wss://capsolver.yxschool.cc:8998/ws/worker/test222
+[2025-04-12 18:03:40,198] [INFO] [ws_client] 📌 最大允许线程数:5
+[2025-04-12 18:03:40,225] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:04:06,836] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - edd5a852-59ad-4104-9f08-ce401ffe302f
+[2025-04-12 18:04:46,686] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:04:46,708] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:04:54,081] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 30ff873a-8a83-4646-ba6e-607a81f4fa00
+[2025-04-12 18:10:59,481] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:10:59,506] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:11:14,885] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:11:14,905] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:11:18,038] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - ca819edb-2184-49d9-848e-4f70b572250b
+[2025-04-12 18:11:49,969] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:11:49,995] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:11:55,652] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - c4c9825c-3333-461d-889b-0bd375d2b1a7
+[2025-04-12 18:14:25,876] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:14:25,899] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:14:29,087] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 8c55812a-e772-4f8a-96f1-2373049e397b
+[2025-04-12 18:15:14,539] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:15:14,562] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:15:17,835] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 14d81ee3-e91d-4c23-b20f-e16829f39de4
+[2025-04-12 18:16:07,578] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:16:07,599] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:16:11,698] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - ed92cae0-544b-4201-a512-3025239de23d
+[2025-04-12 18:16:25,056] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:16:25,077] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:16:27,939] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 8dc8b58b-84a0-4f73-b9f4-49ef7c45c4d1
+[2025-04-12 18:17:32,734] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:17:32,756] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:17:37,731] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 1ed225f6-d40e-493f-8eeb-be490b2a4fb5
+[2025-04-12 18:18:02,847] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:18:02,867] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:18:06,311] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 0cf69310-887a-44fa-8046-3f5fcece3593
+[2025-04-12 18:18:22,895] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:18:22,916] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:18:25,874] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 2e5eda05-32dc-4228-bc40-6bbddeda42d4
+[2025-04-12 18:18:38,949] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:18:38,972] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:18:41,828] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 9f644432-55b7-4d2d-93cb-5e9f2e7de9e7
+[2025-04-12 18:19:21,561] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:19:21,583] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:19:26,960] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 7d121b1f-f6f6-4704-a93b-b3b0dfb8f114
+[2025-04-12 18:21:07,246] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:21:07,268] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:21:11,728] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 86179291-8bc2-4482-b9ff-76e646b1247c
+[2025-04-12 18:21:12,061] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:22:48,059] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:22:48,078] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:22:51,626] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 1284aeb1-c7fe-4da4-a754-8a39db71d0ab
+[2025-04-12 18:22:51,977] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:23:23,117] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:23:23,156] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:23:27,437] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - adc46e5e-d5fd-4839-a62e-7e9505dd870f
+[2025-04-12 18:23:27,837] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:23:59,811] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:23:59,832] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:24:12,582] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - febeecdb-ac1d-4348-8031-a0097d896a75
+[2025-04-12 18:24:12,954] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:25:13,329] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:25:13,350] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:25:17,581] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - e40ef609-514d-482e-bad1-06cdf336294a
+[2025-04-12 18:25:18,046] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:27:36,739] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:27:36,761] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:27:39,328] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 00deea6a-08f3-4fdd-a1ae-8e155843bb26
+[2025-04-12 18:27:39,679] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:28:00,268] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:28:00,289] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:28:03,699] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 12938a7b-2e18-47ed-9cbd-c93c7630f9ea
+[2025-04-12 18:28:04,066] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:28:44,890] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:28:44,909] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:28:48,533] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - a91efa13-e80b-428b-a110-a96b2053dd98
+[2025-04-12 18:28:48,921] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:29:32,391] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:29:32,412] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:29:37,873] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 63e2ed9e-1d62-4027-b176-4789dc94bf67
+[2025-04-12 18:29:38,298] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:30:56,786] [INFO] [ws_client] 📌 最大允许线程数:5
+[2025-04-12 18:30:56,813] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:31:10,223] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:31:10,243] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:31:18,678] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 40bb7f86-9a37-4c24-b1ee-8a6c1d720a7a
+[2025-04-12 18:31:19,089] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:33:59,050] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - ac871682-ccf7-4c29-b31b-d2f58f9ea749
+[2025-04-12 18:33:59,051] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:36:02,841] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:36:02,865] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:36:07,518] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 3a6bd43a-20d3-4860-853e-94059666ea30
+[2025-04-12 18:36:07,869] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:38:59,605] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:38:59,630] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:39:08,039] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - 29cae8de-373a-4662-abe8-99651db8ea5c
+[2025-04-12 18:39:08,409] [DEBUG] [ws_client] 执行的函数:<module 'task_handlers.AntiTurnstileTaskProxyLess' from '/Users/hewenjian/PycharmProjects/brush-captcha/client/task_handlers/AntiTurnstileTaskProxyLess.py'>
+[2025-04-12 18:41:11,754] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:41:11,776] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:41:16,231] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - d1bd67e4-145a-4500-b5bf-10fdef9a95dc
+[2025-04-12 18:53:29,495] [INFO] [ws_client] 📌 最大允许线程数:4
+[2025-04-12 18:53:29,530] [INFO] [ws_client] ✅ 已注册:ws://127.0.0.1:8000/worker/test222
+[2025-04-12 18:53:34,623] [INFO] [ws_client] 📥 接收到任务: AntiTurnstileTaskProxyLess - f6896392-4556-4ed6-98bd-71447db7d5b7
+[2025-04-12 20:03:19,864] [INFO] [ws_client] ❌ 连接断开，原因: no close frame received or sent
+[2025-04-12 20:03:19,868] [INFO] [ws_client] ⏳ 5 秒后重试连接...
