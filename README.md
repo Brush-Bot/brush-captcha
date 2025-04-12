@@ -152,3 +152,20 @@ server {
 如果你有任何建议或问题，欢迎提交 [Issues](https://github.com/0xC0FFEE42/brush-captcha/issues) 或 PR！
 
 ---
+
+## Mac OS
+- 安装 colima， docker docker-compose
+  ```shell
+  	brew install colima docker docker-compose
+  ```
+- 启动colima
+  ```shell
+  	colima start
+  ```
+  
+- 进入目录`brush-capthca`一键启动
+  ```shell
+  	ddocker compose up -d
+  ```
+
+
