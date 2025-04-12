@@ -23,7 +23,7 @@ echo "📌 请输入代理服务器信息，目前仅适配了ip2world，其他�
 read -p "请输入 Proxy Server (例如 http://ip:port): " proxy_server
 read -p "请输入 Proxy Username: " proxy_username
 read -p "请输入 Proxy Password: " proxy_password
-read -p "请输入 WSS 服务器地址（支持完整 URL 或仅 IP，默认 $HOST_IP）: " wss_ip
+read -p "请输入 WSS 服务器地址（不传入协议头默认ws://，默认 $HOST_IP）: " wss_ip
 wss_ip=${wss_ip:-$HOST_IP}
 read -p "请输入 WSS 服务器端口（默认 8000）: " wss_port
 wss_port=${wss_port:-8000}
