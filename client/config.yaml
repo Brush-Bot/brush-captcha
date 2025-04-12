@@ -1,0 +1,21 @@
+# 并发数设置（可选，不填则自动根据系统资源）
+concurrency: null
+
+# Camoufox 参数配置
+camoufox:
+  api_key: "test"
+  solver_type:
+    - ImageToTextTask
+    - AntiTurnstileTaskProxyLess
+  headless: "true"
+
+worker:
+  name: "test222"
+#  wss_url: "wss://capsolver.yxschool.cc:8998/ws/worker/"
+  wss_url: "ws://127.0.0.1:8000/worker/"
+
+# 动态代理配置（适配 ipworld）
+proxy:
+  server: "http://pr-sg.ip2world.com:6001"
+  username: "capsolver-zone-resi-region-hk"
+  password: "123456"

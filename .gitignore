@@ -1,0 +1,15 @@
+/logs/
+/frontend/build/
+/frontend/node_modules/
+/frontend/generate_readme.py
+/client/config/config.yaml
+/backend/.venv/
+/backend/.idea/
+/client/.idea/
+/backend/ws_test.py
+/client/venv/
+/init.sh
+/toolbox.sh
+**/.idea/
+**/__pycache__/
+/client/logs/
