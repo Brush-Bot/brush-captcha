@@ -10,7 +10,7 @@ RUN npm install && npm run build
 # 部署阶段：用 nginx 托管构建产物
 FROM nginx:alpine
 COPY --from=builder /app/build /usr/share/nginx/html
-COPY nginx.conf.template /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 显式暴露端口（默认 80）
 EXPOSE 8080
