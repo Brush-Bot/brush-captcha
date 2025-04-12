@@ -7,56 +7,20 @@ import sys
 import time
 from typing import Optional
 
+import yaml
 from camoufox.async_api import AsyncCamoufox
 # from patchright.async_api import async_playwright
-
+from common.logger import get_logger,emoji
 from dataclasses import dataclass
+logger = get_logger("Anti")
+with open("config/config.yaml", "r") as f:
+    config = yaml.safe_load(f)
 @dataclass
 class TurnstileResult:
     turnstile_value: Optional[str]
     elapsed_time_seconds: float
     status: str
     reason: Optional[str] = None
-
-
-COLORS = {
-    'MAGENTA': '\033[35m',
-    'BLUE': '\033[34m',
-    'GREEN': '\033[32m',
-    'YELLOW': '\033[33m',
-    'RED': '\033[31m',
-    'RESET': '\033[0m',
-}
-
-
-class CustomLogger(logging.Logger):
-    @staticmethod
-    def format_message(level, color, message):
-        timestamp = time.strftime('%H:%M:%S')
-        return f"[{timestamp}] [{COLORS.get(color)}{level}{COLORS.get('RESET')}] -> {message}"
-
-    def debug(self, message, *args, **kwargs):
-        super().debug(self.format_message('DEBUG', 'MAGENTA', message), *args, **kwargs)
-
-    def info(self, message, *args, **kwargs):
-        super().info(self.format_message('INFO', 'BLUE', message), *args, **kwargs)
-
-    def success(self, message, *args, **kwargs):
-        super().info(self.format_message('SUCCESS', 'GREEN', message), *args, **kwargs)
-
-    def warning(self, message, *args, **kwargs):
-        super().warning(self.format_message('WARNING', 'YELLOW', message), *args, **kwargs)
-
-    def error(self, message, *args, **kwargs):
-        super().error(self.format_message('ERROR', 'RED', message), *args, **kwargs)
-
-
-logging.setLoggerClass(CustomLogger)
-logger = logging.getLogger("TurnstileAPIServer")
-logger.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
-logger.addHandler(handler)
-
 
 class TurnstileSolver:
     HTML_TEMPLATE = """
@@ -114,7 +78,7 @@ class TurnstileSolver:
         await page.route(url_with_slash, lambda route: route.fulfill(body=page_data, status=200))
         await page.goto(url_with_slash)
 
-        return page, url_with_slash, handler
+        return page, url_with_slash
 
     async def _get_turnstile_response(self, page, max_attempts: int = 10) -> Optional[str]:
         for attempt in range(max_attempts):
@@ -127,11 +91,7 @@ class TurnstileSolver:
                     await page.click("//div[@class='cf-turnstile']", timeout=3000)
                     await asyncio.sleep(3)
                 else:
-                    # element = page.query_selector("[name=cf-turnstile-response]")
-                    # if element:
-                    #     return element.get_attribute("value")
                     return turnstile_check
-                    # break
             except Exception as e:
                 logger.debug(f"Click error: {str(e)}")
                 continue
@@ -139,77 +99,69 @@ class TurnstileSolver:
 
     async def solve(self, url: str, sitekey: str, action: str = None, cdata: str = None):
         start_time = time.time()
-        if self.browser_type == "camoufox":
-            async with AsyncCamoufox(
-                    headless=self.headless,
-                    geoip=True,
-                    proxy={
-                        "server": "http://pr-sg.ip2world.com:6001",
-                        "username": "capsolver-zone-resi-region-hk",
-                        "password": "123456"
-                    }
-            ) as browser:
+        logger.debug(f"Attempting to solve URL: {url}")
+        proxy_config = config.get("proxy") or {}
+        proxy = {
+            "server": proxy_config.get("server"),
+            "username": proxy_config.get("username"),
+            "password": proxy_config.get("password"),
+        }
+        logger.debug(f"Proxy: {proxy}")
+        async with AsyncCamoufox(
+                headless=self.headless,
+                geoip=True,
+                proxy=proxy,
+        ) as browser:
+            try:
+                page,url_with_slash = await self._setup_page(browser, url, sitekey, action, cdata)
+                token = await self._get_turnstile_response(page)
+                elapsed = round(time.time() - start_time, 2)
+
+                if not token:
+                    logger.error("Failed to retrieve Turnstile value.")
+                    return TurnstileResult(None, elapsed, "failure", "No token obtained")
+
+                logger.info(emoji("SUCCESS", f"Solved Turnstile in {elapsed}s -> {token[:10]}..."))
+                return TurnstileResult(token, elapsed, "success")
+
+            finally:
+                await browser.close()
+                # 强制垃圾回收
+                gc.collect()
+                # 打印内存使用情况
+                rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+                rss_mb = rss_kb / 1024 if sys.platform != "darwin" else rss_kb / (1024 * 1024)  # macOS单位不同
+                logger.debug(f"🧠 内存占用: {rss_mb:.2f} MB")
+                logger.debug(f"对象数量追踪: {len(gc.get_objects())}")
                 try:
-                    page,url_with_slash, handler = await self._setup_page(browser, url, sitekey, action, cdata)
-                    token = await self._get_turnstile_response(page)
-                    elapsed = round(time.time() - start_time, 2)
+                    open_fds = len(os.listdir(f'/proc/{os.getpid()}/fd'))
+                    logger.debug(f"📎 打开文件描述符数: {open_fds}")
+                except Exception:
+                    pass
 
-                    if not token:
-                        logger.error("Failed to retrieve Turnstile value.")
-                        return TurnstileResult(None, elapsed, "failure", "No token obtained")
-
-                    logger.success(f"Solved Turnstile in {elapsed}s -> {token[:10]}...")
-                    return TurnstileResult(token, elapsed, "success")
-
-                finally:
-                    await page.unroute(url_with_slash, handler)
-                    await browser.close()
-                    # ✅ 强制垃圾回收
-                    gc.collect()
-
-                    # ✅ 打印内存使用情况
-                    rss_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-                    rss_mb = rss_kb / 1024 if sys.platform != "darwin" else rss_kb / (1024 * 1024)  # macOS单位不同
-                    logger.debug(f"🧠 内存占用: {rss_mb:.2f} MB")
-                    logger.debug(f"对象数量追踪: {len(gc.get_objects())}")
-                    # ✅ 打印句柄数（文件 + socket 等）
-                    try:
-                        open_fds = len(os.listdir(f'/proc/{os.getpid()}/fd'))
-                        logger.debug(f"📎 打开文件描述符数: {open_fds}")
-                    except Exception:
-                        pass  # 非 Linux 忽略
-
-async def get_turnstile_token(url: str, sitekey: str, action: str = None, cdata: str = None, debug: bool = False, headless: bool = False, useragent: str = None, browser_type: str = "chromium"):
-    """Legacy wrapper function for backward compatibility."""
-    browser_types = [
-        'chromium',
-        'chrome',
-        'camoufox',
-    ]
-    if browser_type not in browser_types:
-        logger.error(f"Unknown browser type: {COLORS.get('RED')}{browser_type}{COLORS.get('RESET')} Available browser types: {browser_types}")
-    elif headless is True and useragent is None and "camoufox" not in browser_type:
-        logger.error(f"You must specify a {COLORS.get('YELLOW')}User-Agent{COLORS.get('RESET')} for Turnstile Solver or use {COLORS.get('GREEN')}camoufox{COLORS.get('RESET')} without useragent")
-    else:
-        solver = TurnstileSolver(debug=debug, useragent=useragent, headless=headless, browser_type=browser_type)
-        result = await solver.solve(url=url, sitekey=sitekey, action=action, cdata=cdata)
-        return result.__dict__
+async def get_turnstile_token(url: str, sitekey: str, action: str = None, cdata: str = None, debug: bool = False, headless: bool = False, useragent: str = None):
+    solver = TurnstileSolver(debug=debug, useragent=useragent, headless=headless)
+    logger.debug(f"solver: {solver}")
+    result = await solver.solve(url=url, sitekey=sitekey, action=action, cdata=cdata)
+    return result.__dict__
 
 async def run(task_data):
-    # print(task_data)
+    logger.debug(f"task_data: {task_data}")
     url = task_data["websiteURL"]
     sitekey = task_data["websiteKey"]
     action = task_data.get("metadata", {}).get("action")
-    # print(f"url: {url}, sitekey: {sitekey}, action: {action}")
+    logger.debug(f"action: {sitekey}")
+    headless_str = config.get("camoufox").get("headless", "true")
+    headless = headless_str.lower() == "true"
+    logger.debug(f"headless: {headless}")
     res = await get_turnstile_token(
         url=url,
         sitekey=sitekey,
         action=None,
         cdata=None,
         debug=False,
-        headless=True,
+        headless=headless,
         useragent=None,
-        browser_type="camoufox"
     )
     return {
         "token": res["turnstile_value"],
@@ -217,15 +169,3 @@ async def run(task_data):
         "status": "success" if res["turnstile_value"] else "failure",
         "type": "turnstile"
     }
-# if __name__ == "__main__":
-#     result = await get_turnstile_token(
-#         url="https://testnet.megaeth.com/",
-#         sitekey="0x4AAAAAABA4JXCaw9E2Py-9",
-#         action=None,
-#         cdata=None,
-#         debug=True,
-#         headless=False,
-#         useragent=None,
-#         browser_type="camoufox"
-#     )
-#     print(result)

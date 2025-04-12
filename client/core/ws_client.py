@@ -5,8 +5,9 @@ import yaml
 import importlib
 import concurrent.futures
 from framework.solver_core import get_solver_config
-from system_resources import auto_concurrency
-
+from core.system_resources import auto_concurrency
+from common.logger import get_logger,emoji
+logger = get_logger("ws_client")
 with open("config/config.yaml", "r") as f:
     config = yaml.safe_load(f)
 
@@ -15,16 +16,13 @@ task_queue = asyncio.Queue()
 semaphore = asyncio.Semaphore(MAX_CONCURRENCY)
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_CONCURRENCY)
 
-print("最大允许线程数:", MAX_CONCURRENCY)
+logger.info(emoji("TASK",f"最大允许线程数:{MAX_CONCURRENCY}"))
 async def run_task(task):
-    # print(f"[run_task] task = {task}")
     handler = importlib.import_module(f"task_handlers.{task['type']}")
-    # print(f"[run_task] handler module loaded = {handler}")
-
+    logger.debug(f"执行的函数:{handler}")
     if asyncio.iscoroutinefunction(handler.run):
         result = await handler.run(task)
-        # print(f"[run_task] handler result is coroutine = {result}")
-        while asyncio.iscoroutine(result):  # 防止返回嵌套 coroutine
+        while asyncio.iscoroutine(result):
             result = await result
         return result
     else:
@@ -55,7 +53,6 @@ async def heartbeat(ws):
         running_tasks = MAX_CONCURRENCY - semaphore._value
         waiting_tasks = task_queue.qsize()
         msg = {"type": "status_update", "current_tasks": running_tasks+waiting_tasks, "pending_tasks": running_tasks}
-        print(f"[heartbeat] msg = {msg}")
         await ws.send(json.dumps(msg))
         await asyncio.sleep(10)
 
@@ -63,7 +60,7 @@ async def receiver(ws):
     while True:
         msg = await ws.recv()
         task = json.loads(msg).get("task")
-        print(f"📥 接收到任务: {task['type']} - {task['taskId']}")
+        logger.info(emoji("GETTASK",f"接收到任务: {task['type']} - {task['taskId']}"))
         await task_queue.put(task)
 
 async def worker_main():
@@ -76,7 +73,7 @@ async def worker_main():
                     "task_types": get_solver_config().get("solver_type"),
                     "max_concurrency": MAX_CONCURRENCY
                 }))
-                print(f"✅ 已注册:{uri}")
+                logger.info(emoji("SUCCESS",f"已注册:{uri}"))
 
                 await asyncio.gather(
                     heartbeat(ws),
@@ -84,6 +81,6 @@ async def worker_main():
                     *[task_worker(ws) for _ in range(MAX_CONCURRENCY)]
                 )
         except Exception as e:
-            print(f"❌ 连接断开，原因: {e}")
-            print("⏳ 5 秒后重试连接...")
+            logger.info(emoji("ERROR", f"连接断开，原因: {e}"))
+            logger.info(emoji("WAIT", "5 秒后重试连接..."))
             await asyncio.sleep(5)

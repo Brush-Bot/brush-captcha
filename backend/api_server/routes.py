@@ -9,6 +9,8 @@ from datetime import datetime, timedelta, timezone
 from fastapi.encoders import jsonable_encoder
 from core.task_dispatcher import Status
 from core.task_stats import task_stats
+from common.logger import get_logger,emoji
+logger = get_logger("routes")
 router = APIRouter()
 
 CST = timezone(timedelta(hours=8))
@@ -16,7 +18,6 @@ CST = timezone(timedelta(hours=8))
 def serialize_worker(info):
     connected_at = info.get("connected_at")
 
-    # 统一为带时区对象
     if connected_at and connected_at.tzinfo is None:
         connected_at = connected_at.replace(tzinfo=timezone.utc)
 
@@ -32,7 +33,7 @@ def serialize_worker(info):
         "status": get_worker_status(info)["status"]
     }
 
-@router.post("/createTask")
+@router.post("/createTask",tags=["Task"])
 async def create_task(req: CreateTaskRequest):
     task_id = str(uuid4())
     task_pool[task_id] = {
@@ -40,14 +41,14 @@ async def create_task(req: CreateTaskRequest):
         "clientKey": req.clientKey,
         "status": Status.WAITING,
         "assignedTo": None,
-        "createdAt": datetime.utcnow(),
+        "createdAt": datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(CST).strftime("%Y-%m-%d %H:%M:%S"),
         "type": req.task.get("type", "Unknown"),
         "payload": req.task,
     }
     await task_stats.increment_total()
     return {"errorId": 0, "taskId": task_id}
 
-@router.post("/getTaskResult")
+@router.post("/getTaskResult",tags=["Task"])
 async def get_task(req: GetTaskRequest):
     task = task_pool.get(req.taskId)
     if not task:
@@ -58,11 +59,11 @@ async def get_task(req: GetTaskRequest):
         # return {"errorId": 0, "status": task["status"]}
         return {"errorId": 0, "status": "processing"}
 
-@router.get("/api/nodes")
+@router.get("/api/nodes",tags=["REST"])
 async def get_nodes():
     return jsonable_encoder([serialize_worker(info) for info in worker_pool.values()])
 
-@router.get("/api/tasks")
+@router.get("/api/tasks",tags=["REST"])
 async def get_tasks():
     def safe_str(val):
         try:

@@ -1,5 +1,6 @@
 from datetime import datetime
-
+from common.logger import get_logger,emoji
+logger = get_logger("worker_manager")
 worker_pool = {}
 
 def register_worker(worker_id, ws, data):
@@ -16,10 +17,8 @@ def register_worker(worker_id, ws, data):
     }
 
 def update_worker_status(worker_id, status):
-    # print(f"[update_worker_status]:{worker_id}: {status}")
     if worker_id in worker_pool:
         worker_pool[worker_id]["current_tasks"] = status.get("current_tasks", 0)
-        # print(f"[update_worker_status]:{worker_pool[worker_id]['current_tasks'] }")
         worker_pool[worker_id]["pending_tasks"] = status.get("pending_tasks", 0)
         worker_pool[worker_id]["last_ping"] = datetime.utcnow()
 
