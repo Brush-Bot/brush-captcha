@@ -7,18 +7,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   HOST_IP=$(ipconfig getifaddr en0)
 else
   HOST_IP=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i != "127.0.0.1") { print $i; exit } }')
-fi
-read -p "检测到宿主机 IP 为 $HOST_IP，是否使用？[Y/n]: " use_ip
-use_ip=${use_ip:-Y}
-if [[ "$use_ip" =~ ^[Nn]$ ]]; then
-  read -p "请输入宿主机 IP: " HOST_IP
-fi
 
 # 用户传参
 read -p "请输入 WSS 服务器地址（支持完整 URL 或仅 IP，默认 $HOST_IP）: " wss_ip
-wss_ip=${wss_ip:-$HOST_IP}
-read -p "请输入 WSS 服务器端口（默认 8000）: " wss_port
-wss_port=${wss_port:-8000}
 read -p "请输入 Worker Name (默认 test): " worker_name
 worker_name=${worker_name:-test}
 
@@ -26,7 +17,7 @@ worker_name=${worker_name:-test}
 if [[ "$wss_ip" == *"://"* ]]; then
   final_wss_url="$wss_ip/worker/"
 else
-  final_wss_url="ws://$wss_ip:$wss_port/worker/"
+  final_wss_url="ws://$wss_ip/worker/"
 fi
 
 # 生成 client/config/config.yaml

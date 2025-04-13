@@ -24,18 +24,47 @@ SSL_MODE="off"
 # 是否使用 SSL
 read -p "是否启用 SSL？[y/N]: " use_ssl
 use_ssl=${use_ssl:-N}
+
 if [[ "$use_ssl" =~ ^[Yy]$ ]]; then
-  echo "🔐 默认从 tmp/ssl.crt 和 tmp/ssl.key 读取证书文件..."
-  ssl_crt_path="./tmp/ssl.crt"
-  ssl_key_path="./tmp/ssl.key"
-  if [[ ! -f "$ssl_crt_path" || ! -f "$ssl_key_path" ]]; then
-    echo "❌ 未找到 SSL 证书或密钥文件：$ssl_crt_path / $ssl_key_path"
+  echo "🔍 检查 tmp/ 下的 SSL 证书文件..."
+
+  mkdir -p frontend/ssl
+
+  crt_file=$(find tmp/ -type f -name "*.crt" | head -n1)
+  key_file=$(find tmp/ -type f -name "*.key" | head -n1)
+  pem_files=($(find tmp/ -type f -name "*.pem"))
+
+  if [[ -n "$crt_file" && -n "$key_file" ]]; then
+    cp "$crt_file" frontend/ssl/server.crt
+    cp "$key_file" frontend/ssl/server.key
+    echo "✅ 使用现有 .crt 和 .key 文件"
+  elif [[ ${#pem_files[@]} -eq 1 ]]; then
+    echo "🔧 检测到 1 个 PEM 文件，尝试拆分证书和密钥..."
+    openssl x509 -in "${pem_files[0]}" -out frontend/ssl/server.crt -outform PEM
+    openssl pkey -in "${pem_files[0]}" -out frontend/ssl/server.key
+    if [[ $? -ne 0 ]]; then
+      echo "❌ PEM 拆分失败，请检查格式"
+      exit 1
+    fi
+    echo "✅ 成功从 PEM 拆出证书和密钥"
+  elif [[ ${#pem_files[@]} -ge 2 ]]; then
+    echo "🧩 检测到多个 PEM 文件，请选择哪个是密钥："
+    select key_path in "${pem_files[@]}"; do
+      [[ -n "$key_path" ]] && break
+    done
+
+    echo "🔍 再选择哪个是证书："
+    select crt_path in "${pem_files[@]}"; do
+      [[ -n "$crt_path" && "$crt_path" != "$key_path" ]] && break
+    done
+
+    cp "$crt_path" frontend/ssl/server.crt
+    cp "$key_path" frontend/ssl/server.key
+    echo "✅ 已复制用户指定的 PEM 文件"
+  else
+    echo "❌ 未找到证书文件（.crt/.key/.pem）"
     exit 1
   fi
-  mkdir -p frontend/ssl
-  cp "$ssl_crt_path" frontend/ssl/server.crt
-  cp "$ssl_key_path" frontend/ssl/server.key
-  echo "✅ 已复制 SSL 证书到 frontend/ssl/"
 
   BASE_API_URL="https://backend:8000"
   SSL_MODE="on"
