@@ -1,20 +1,13 @@
-# 并发数设置（可选，不填则自动根据系统资源）
 concurrency: null
 
-# Camoufox 参数配置
 camoufox:
-  api_key: "test" # 可选，暂时未用
-  solver_type:  # 支持的工作了类型，格式参照capsolver格式
+  api_key: "test"
+  solver_type:
     - ImageToTextTask
     - AntiTurnstileTaskProxyLess
-  headless: "true" # 无头模式,建议开启
-# worker信息配置
-worker:
-  name: "test"  # worker名
-  wss_url: "ws://{ip}:{port}/ws/worker/"  # server地址，注意替换ip和port，ssl配置后记得改wss
+  headless: "true"
 
-# 动态代理配置（仅测试了ip2world）
-proxy:
-  server: "http://{ip}:{port}"
-  username: "xxx"
-  password: "xxx"
+worker:
+  name: "test2"
+  wss_url: "ws://backend:8000/worker/"
+

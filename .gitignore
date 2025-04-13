@@ -13,3 +13,7 @@
 **/.idea/
 **/__pycache__/
 /client/logs/
+/backend/proxy/proxy_usage.json
+/.env
+/backend/logs/
+/backend/proxy/proxies.txt

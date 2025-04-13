@@ -17,11 +17,11 @@ semaphore = asyncio.Semaphore(MAX_CONCURRENCY)
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_CONCURRENCY)
 
 logger.info(emoji("TASK",f"最大允许线程数:{MAX_CONCURRENCY}"))
-async def run_task(task):
+async def run_task(task,proxy):
     handler = importlib.import_module(f"task_handlers.{task['type']}")
     logger.debug(f"执行的函数:{handler}")
     if asyncio.iscoroutinefunction(handler.run):
-        result = await handler.run(task)
+        result = await handler.run(task,proxy)
         while asyncio.iscoroutine(result):
             result = await result
         return result
@@ -31,19 +31,21 @@ async def run_task(task):
 
 async def task_worker(ws):
     while True:
-        task = await task_queue.get()
+        task,proxy = await task_queue.get()
         async with semaphore:
             try:
-                result = await run_task(task)
+                result = await run_task(task,proxy)
                 await ws.send(json.dumps({
                     "type": "task_result",
                     "taskId": task["taskId"],
+                    "errorId": 0,
                     "result": result
                 }))
             except Exception as e:
                 await ws.send(json.dumps({
                     "type": "task_result",
                     "taskId": task.get("taskId"),
+                    "errorId":-1,
                     "result": {"error": str(e)}
                 }))
         task_queue.task_done()
@@ -60,8 +62,9 @@ async def receiver(ws):
     while True:
         msg = await ws.recv()
         task = json.loads(msg).get("task")
+        proxy = json.loads(msg).get("proxy")
         logger.info(emoji("GETTASK",f"接收到任务: {task['type']} - {task['taskId']}"))
-        await task_queue.put(task)
+        await task_queue.put((task,proxy))
 
 async def worker_main():
     uri = config.get("worker").get("wss_url") + config.get("worker").get("name")

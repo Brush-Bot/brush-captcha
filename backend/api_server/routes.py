@@ -44,6 +44,7 @@ async def create_task(req: CreateTaskRequest):
         "createdAt": datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(CST).strftime("%Y-%m-%d %H:%M:%S"),
         "type": req.task.get("type", "Unknown"),
         "payload": req.task,
+        "errorId": 0
     }
     await task_stats.increment_total()
     return {"errorId": 0, "taskId": task_id}
@@ -54,16 +55,20 @@ async def get_task(req: GetTaskRequest):
     if not task:
         return JSONResponse(status_code=404, content={"errorId": 1, "errorDescription": "task not found"})
     if task["status"] == Status.SUCCESS:
-        return {"errorId": 0,"taskId":req.taskId, "status": "ready", "solution": task["result"]}
+        if task["errorId"] == 0:
+            return {"errorId": 0,"taskId":req.taskId, "status": "ready", "solution": task["result"]}
+        else:
+            return {"errorId": task["errorId"], "taskId": req.taskId, "status": "ready", "solution": task["result"]}
     else:
         # return {"errorId": 0, "status": task["status"]}
+        logger.debug(f"getTaskResult {task}")
         return {"errorId": 0, "status": "processing"}
 
-@router.get("/api/nodes",tags=["REST"])
+@router.get("/nodes",tags=["REST"])
 async def get_nodes():
     return jsonable_encoder([serialize_worker(info) for info in worker_pool.values()])
 
-@router.get("/api/tasks",tags=["REST"])
+@router.get("/tasks",tags=["REST"])
 async def get_tasks():
     def safe_str(val):
         try:

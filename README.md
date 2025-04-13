@@ -55,7 +55,12 @@ bash install.sh
 # 根据提示输入，除了proxy信息为必填信息，其他配置可以直接回车
 
 ```
-注意：client的基础镜像比较大，建议分开安装
+注意：
+1、client的基础镜像比较大，建议分开安装
+2、请确保运行client端机器能够连接上你的代理ip（科学上网）,建议设置：
+```angular2html
+IP-CIDR,45.38.0.0/16,proxy,no-resolve
+```
 ```
 默认监控页面地址：http://{ip}:8080/
 账号：admin
