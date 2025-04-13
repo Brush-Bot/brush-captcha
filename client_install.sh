@@ -2,14 +2,8 @@
 
 echo "=== Client 安装脚本 ==="
 
-# 获取宿主机 IP
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  HOST_IP=$(ipconfig getifaddr en0)
-else
-  HOST_IP=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i != "127.0.0.1") { print $i; exit } }')
-
 # 用户传参
-read -p "请输入 WSS 服务器地址（支持完整 URL 或仅 IP，默认 $HOST_IP）: " wss_ip
+read -p "请输入 WSS 服务器地址（支持完整 URL 或仅 IP）: " wss_ip
 read -p "请输入 Worker Name (默认 test): " worker_name
 worker_name=${worker_name:-test}
 
