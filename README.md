@@ -43,34 +43,27 @@
 - Nginx（建议部署使用）
 
 ---
-### 🚀 一键启动
-
+### 🚀 开箱即用
 确保已安装 [Docker](https://www.docker.com/) 和 [Docker Compose](https://docs.docker.com/compose/):
 
-## Mac OS docker 环境
-- 安装 colima， docker docker-compose
-  ```shell
-  brew install colima docker docker-compose
-  ```
-- 启动 colima
-  ```shell
-  colima start
-  ```
-  这样docker 服务就启动好了
+```bash
 # 克隆仓库
 git clone https://github.com/Brush-Bot/brush-captcha.git
 cd brush-captcha
+bash install.sh
 
+# 根据提示输入，除了proxy信息为必填信息，其他配置可以直接回车
 
-
-# 启动所有服务
-docker compose up -d
 ```
 注意：client的基础镜像比较大，建议分开安装
 ```
-默认监控页面地址：http://localhost:8000/
+默认监控页面地址：http://{ip}:8080/
 账号：admin
 密码：admin
+```
+### 🚀 单独安装client端
+```bash
+bash <(curl -sSL https://raw.githubusercontent.com/Brush-Bot/brush-captcha/refs/heads/main/client_install.sh)
 ```
 ## 🛠 手动启动
 
