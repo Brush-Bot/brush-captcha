@@ -17,3 +17,4 @@
 /.env
 /backend/logs/
 /backend/proxy/proxies.txt
+/client/client_install_own.sh
