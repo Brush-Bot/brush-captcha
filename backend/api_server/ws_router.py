@@ -14,6 +14,7 @@ async def worker_ws(ws: WebSocket, worker_id: str):
     try:
         while True:
             msg = await ws.receive_json()
+            logger.debug(f"received message: {msg}")
             if msg["type"] == "register":
                 register_worker(worker_id, ws, msg)
             elif msg["type"] == "status_update":
