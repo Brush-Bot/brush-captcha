@@ -1,5 +1,6 @@
 import asyncio
 import os
+import ssl
 import sys
 import websockets
 import json
@@ -116,9 +117,10 @@ async def worker_main():
     uri = config.get("worker").get("wss_url") + config.get("worker").get("name")
 
     while True:
-        tasks = []  # ✅ 必须提前定义
+        tasks = []
+        ssl_ctx = ssl._create_unverified_context()
         try:
-            async with websockets.connect(uri) as ws:
+            async with websockets.connect(uri,ssl=ssl_ctx) as ws:
                 await ws.send(json.dumps({
                     "type": "register",
                     "task_types": get_solver_config().get("solver_type"),

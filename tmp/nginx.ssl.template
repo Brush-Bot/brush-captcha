@@ -2,8 +2,8 @@ server {
     listen 8080 ssl;
     server_name localhost;
 
-    ssl_certificate     __SSL_CRT__;
-    ssl_certificate_key __SSL_KEY__;
+    ssl_certificate     /app/ssl/server.crt";
+    ssl_certificate_key /app/ssl/server.key;
 
     ssl_protocols       TLSv1.2 TLSv1.3;
     ssl_ciphers         HIGH:!aNULL:!MD5;

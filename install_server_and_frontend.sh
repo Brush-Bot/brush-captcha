@@ -65,9 +65,6 @@ if [[ "$use_ssl" =~ ^[Yy]$ ]]; then
     select key_path in "${pem_files[@]}"; do
       [[ -n "$key_path" ]] && break
     done
-
-
-
     cp "$crt_path" frontend/ssl/server.crt
     cp "$key_path" frontend/ssl/server.key
     echo "✅ 已复制用户指定的 PEM 文件"
@@ -99,21 +96,7 @@ if [[ ! -f "$nginx_template" ]]; then
   exit 1
 fi
 cp "$nginx_template" frontend/nginx.conf
-sedi "s|__HOST_IP__|backend|g" frontend/nginx.conf
-sedi "s|__USE_SSL__|$SSL_MODE|g" frontend/nginx.conf
-if [[ "$SSL_MODE" == "on" ]]; then
-  sedi "s|__SSL_CRT__|$ssl_crt|g" frontend/nginx.conf
-  sedi "s|__SSL_KEY__|$ssl_key|g" frontend/nginx.conf
-fi
-if grep -q '__HOST_IP__' frontend/nginx.conf; then
-  echo "❌ 替换失败：nginx.conf 中仍包含 __HOST_IP__ 占位符。"
-  exit 1
-fi
-echo "✅ 已生成 nginx.conf"
 
-# 用户输入代理配置
-read -p "请输入 Worker Name (默认 test): " worker_name
-worker_name=${worker_name:-test}
 
 # 容器内访问地址
 if [[ "$SSL_MODE" == "on" ]]; then
@@ -132,6 +115,8 @@ echo "✅ 容器启动完成！"
 
 # 提示信息
 echo
-echo "🌐 api访问地址：ip:8080/api"
-echo "🔹 wss 地址：ip:8080/ws/worker/"
+echo "管理后台地址：ip:8080"
+echo "api 地址：ip:8080/api"
+echo "wss 地址：ip:8080/ws/worker/"
+echo "记得加协议头"
 echo

@@ -67,27 +67,31 @@ git clone https://github.com/Brush-Bot/brush-captcha.git
 cd brush-captcha
 ```
 
-将配置文件放到tmp文件夹：
+```
+将以下配置文件放到tmp文件夹：
 
-###### proxies.txt
-
+# proxies.txt
 代理ip文件，必须配置，一行一条ip，支持http://user:pass@ip:port、user:pass@ip:port、ip:port:user:pass格式
 
-###### nginx.conf.template / nginx.ssl.template
-
+# nginx.conf.template / nginx.ssl.template
 nginx配置，不知道怎么配置的默认即可
 
-###### *.crt / *.key / *.pem
-
+# *.crt / *.key / *.pem
 ssl证书，兼容多种格式，一键脚本可以识别，需要配置ssl的一定要提前把证书放进去
-
-##### user_keys.txt
-
+新手可以使用以下指令自签：
+openssl req -x509 -newkey rsa:2048 -nodes \
+  -keyout server.key \
+  -out server.crt \
+  -days 365 \
+  -subj "/C=CN/ST=Beijing/L=Beijing/O=MyCompany/OU=Dev/CN=localhost"
+  
+# user_keys.txt
 允许连接用户key列表，一条一个（这里建议直接存放gemini的api key，方便需要gemini的项目传入key）
+
+```
 
 ```bash
 bash install_server_and_frontend.sh
-# 根据提示输入，除了proxy信息为必填信息，其他配置可以直接回车
 ```
 
 #### client端安装
@@ -112,7 +116,7 @@ camoufox:
 
 worker:
   name: "test"    # 当前设备名称
-  wss_url: "ws://127.0.0.1:8000/worker/"    # 后端api地址，替换ip和port即可
+  wss_url: "ws://127.0.0.1:8080/ws/worker/"    # 后端api地址，替换ip和port即可
                                             # 如果配置了ssl，协议头改成wss
 ```
 
