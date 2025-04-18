@@ -2,7 +2,6 @@
 FROM node:18 AS builder
 WORKDIR /app
 COPY . .
-
 RUN npm install && npm run build
 
 # 部署阶段：用 nginx 托管构建产物

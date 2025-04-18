@@ -84,10 +84,9 @@ openssl req -x509 -newkey rsa:2048 -nodes \
   -out server.crt \
   -days 365 \
   -subj "/C=CN/ST=Beijing/L=Beijing/O=MyCompany/OU=Dev/CN=localhost"
-  
+
 # user_keys.txt
 允许连接用户key列表，一条一个（这里建议直接存放gemini的api key，方便需要gemini的项目传入key）
-
 ```
 
 ```bash
@@ -109,15 +108,18 @@ concurrency: null
 
 # Camoufox 参数配置
 camoufox:
-  solver_type:    # 当前设备支持的打码类型，支持的类型server端才会分配任务
+  # 当前设备支持的打码类型，支持的类型server端才会分配任务
+  solver_type:
     - HcaptchaCracker
     - AntiTurnstileTaskProxyLess
-  headless: "true"    # 无头模式，默认打开即可
+  # 无头模式，默认打开即可
+  headless: "true"
 
 worker:
-  name: "test"    # 当前设备名称
-  wss_url: "ws://127.0.0.1:8080/ws/worker/"    # 后端api地址，替换ip和port即可
-                                            # 如果配置了ssl，协议头改成wss
+  # 当前设备名称
+  name: "test"
+  # 后端api地址，替换ip和port即可;如果配置了ssl，协议头改成wss
+  wss_url: "ws://127.0.0.1:8080/ws/worker/"
 ```
 
 保存文件，开始构建
