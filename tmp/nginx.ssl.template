@@ -1,6 +1,12 @@
 server {
-    listen 8080;
+    listen 8080 ssl;
     server_name localhost;
+
+    ssl_certificate     /app/ssl/server.crt;
+    ssl_certificate_key /app/ssl/server.key;
+
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
 
     # 静态资源
     location / {
@@ -11,13 +17,13 @@ server {
 
     # API 反向代理
     location /api/ {
-        proxy_pass http://__HOST_IP__:8000/;
+        proxy_pass http://backend:8000/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
     location /ws/ {
-        proxy_pass http://__HOST_IP__:8000/;
+        proxy_pass http://backend:8000/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";

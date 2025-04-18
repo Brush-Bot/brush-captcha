@@ -1,5 +1,6 @@
 import asyncio
 import gc
+import json
 import logging
 import os
 import resource
@@ -97,16 +98,16 @@ class TurnstileSolver:
                 continue
         return None
 
-    async def solve(self, url: str, sitekey: str, action: str = None, cdata: str = None):
+    async def solve(self, proxy:json,url: str, sitekey: str, action: str = None, cdata: str = None):
         start_time = time.time()
         logger.debug(f"Attempting to solve URL: {url}")
         proxy_config = config.get("proxy") or {}
-        proxy = {
-            "server": proxy_config.get("server"),
-            "username": proxy_config.get("username"),
-            "password": proxy_config.get("password"),
-        }
-        logger.debug(f"Proxy: {proxy}")
+        # proxy = {
+        #     "server": proxy_config.get("server"),
+        #     "username": proxy_config.get("username"),
+        #     "password": proxy_config.get("password"),
+        # }
+        logger.debug(f"Proxy: {proxy},type:{type(proxy)}")
         async with AsyncCamoufox(
                 headless=self.headless,
                 geoip=True,
@@ -123,7 +124,9 @@ class TurnstileSolver:
 
                 logger.info(emoji("SUCCESS", f"Solved Turnstile in {elapsed}s -> {token[:10]}..."))
                 return TurnstileResult(token, elapsed, "success")
-
+            except Exception as e:
+                logger.error(emoji("ERROR", f"Failed to solve Turnstile: {str(e)}"))
+                return TurnstileResult(None, elapsed, "failure", str(e))
             finally:
                 await browser.close()
                 # 强制垃圾回收
@@ -139,13 +142,13 @@ class TurnstileSolver:
                 except Exception:
                     pass
 
-async def get_turnstile_token(url: str, sitekey: str, action: str = None, cdata: str = None, debug: bool = False, headless: bool = False, useragent: str = None):
+async def get_turnstile_token(proxy:json,url: str, sitekey: str, action: str = None, cdata: str = None, debug: bool = False, headless: bool = False, useragent: str = None):
     solver = TurnstileSolver(debug=debug, useragent=useragent, headless=headless)
     logger.debug(f"solver: {solver}")
-    result = await solver.solve(url=url, sitekey=sitekey, action=action, cdata=cdata)
+    result = await solver.solve(proxy=proxy,url=url, sitekey=sitekey, action=action, cdata=cdata)
     return result.__dict__
 
-async def run(task_data):
+async def run(task_data,proxy):
     logger.debug(f"task_data: {task_data}")
     url = task_data["websiteURL"]
     sitekey = task_data["websiteKey"]
@@ -155,6 +158,7 @@ async def run(task_data):
     headless = headless_str.lower() == "true"
     logger.debug(f"headless: {headless}")
     res = await get_turnstile_token(
+        proxy=proxy,
         url=url,
         sitekey=sitekey,
         action=None,

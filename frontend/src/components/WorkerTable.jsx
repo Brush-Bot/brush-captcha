@@ -69,7 +69,10 @@ const columns = [
     {
         title: "任务类型",
         dataIndex: "task_types",
-        render: (tags) => tags.map((t) => <Tag key={t}>{t}</Tag>)
+        render: (tags) =>
+          Array.isArray(tags)
+            ? tags.map((t) => <Tag key={t}>{t}</Tag>)
+            : null
     },
     { title: "上线时间", dataIndex: "connected_at" },
     { title: "Uptime", dataIndex: "uptime" }

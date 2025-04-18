@@ -14,16 +14,29 @@ async def worker_ws(ws: WebSocket, worker_id: str):
     try:
         while True:
             msg = await ws.receive_json()
-            # print(msg)
+            logger.debug(f"received message: {msg}")
             if msg["type"] == "register":
                 register_worker(worker_id, ws, msg)
             elif msg["type"] == "status_update":
                 update_worker_status(worker_id, msg)
             elif msg["type"] == "task_result":
+                logger.debug(f"Task result: {msg}")
                 task_id = msg["taskId"]
+                error_id = msg["errorId"]
                 if task_id in task_pool:
                     task_pool[task_id]["status"] = Status.SUCCESS
+                    task_pool[task_id]["errorId"] = error_id
                     task_pool[task_id]["result"] = msg["result"]
                     await task_stats.increment_completed()
+                    # if error_id != 0:
+                    #     task_pool[task_id]["status"] = Status.SUCCESS
+                    #     task_pool[task_id]["errorId"] = error_id
+                    #     task_pool[task_id]["result"] = msg["result"]
+                    #     await task_stats.increment_completed()
+                    # else:
+                    #     task_pool[task_id]["status"] = Status.SUCCESS
+                    #     task_pool[task_id]["errorId"] = 0
+                    #     task_pool[task_id]["result"] = msg["result"]
+                    #     await task_stats.increment_completed()
     except WebSocketDisconnect:
         worker_pool.pop(worker_id, None)

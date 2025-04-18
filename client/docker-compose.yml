@@ -1,0 +1,10 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: capsolver-client:dev
+    container_name: capsolver-client
+    volumes:
+      - ./config.yaml:/app/config/config.yaml
+    restart: always

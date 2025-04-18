@@ -14,7 +14,7 @@ Backend 项目统一提供 REST 和 WebSocket 接口，用于任务分发与处�
 #### 📥 Request Body:
 ```json
 {
-  "clientKey": "string",  //非必选，暂时没用
+  "clientKey": "string",
   "task": {
     "type": "AntiTurnstileTaskProxyLess", //server端只校验这个值，检验通过后task中值会原样发送给client
     "websiteURL": "https://example.com",
