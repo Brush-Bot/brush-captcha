@@ -118,7 +118,9 @@ async def worker_main():
 
     while True:
         tasks = []
-        ssl_ctx = ssl._create_unverified_context()
+        ssl_ctx = None
+        if uri.startswith("wss://"):
+            ssl_ctx = ssl._create_unverified_context()
         try:
             async with websockets.connect(uri,ssl=ssl_ctx) as ws:
                 await ws.send(json.dumps({
